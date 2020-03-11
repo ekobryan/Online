@@ -8,5 +8,4 @@ Option Explicit
 Private farbe As String
 
 Public Function autofarbe()
-
 End Function
