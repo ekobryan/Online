@@ -1,0 +1,136 @@
+Option Compare Database
+Option Explicit
+Sub Filterdxf()
+    On Error GoTo catchRuntimeError
+    Dim Filter As New dxf_Filter
+    Dim ProgessBar As New Bar
+    Dim STR_Line As String
+    Dim LineNr As Long
+    Dim cnt As Long
+    Dim LineCnt As Long
+    Dim DataPath As String
+     
+     
+    InitializeDb
+    Filter.InitializeFilter
+    DataPath = GetDataPath()
+    ProgessBar.Initialize ("Filter")
+    LineNr = FileLen(DataPath) / 7
+    ProgessBar.SetTotal (LineNr)
+    Open DataPath For Input As #1
+    DoCmd.Hourglass True
+    
+    On Error GoTo catchRuntimeError
+    Do While Not EOF(1)
+        'Get next line and Analyse
+        cnt = cnt + 1
+        If cnt Mod 100 = 0 Then
+            ProgessBar.SetCurrentProgressandUpdate (cnt)
+        End If
+        Line Input #1, STR_Line
+        Filter.FilterLine (STR_Line)
+    Loop
+    ProgessBar.SetCurrentProgressandUpdate (LineNr)
+    DoCmd.Hourglass False
+    Close #1
+    MsgBox ("Gefilterte dxf-Informationen in Tabelle eingetragen.")
+    Exit Sub
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("Filterdxf")
+End Sub
+
+Sub Elementconnect()
+    On Error GoTo catchRuntimeError
+    Dim FH As New FunctionHandler
+    DoCmd.Hourglass True
+    FH.Execute
+    DoCmd.Hourglass False
+    MsgBox ("Elemente zusammenfugen fertig ausgefuhrt.")
+
+    Exit Sub
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("Elementconnect")
+End Sub
+
+Sub ProcessTagRecognizer()
+    On Error GoTo catchRuntimeError
+    Dim PTR As New PTRHandler
+    DoCmd.Hourglass True
+    PTR.Execute
+    DoCmd.Hourglass False
+    MsgBox ("Stellen erkennung ausgef�hrt!")
+
+    Exit Sub
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("ProcessTagRecognizer")
+End Sub
+
+Sub InitializeDb()
+    On Error GoTo catchRuntimeError
+    'Clean every Element Table wich is Mentiont in Element_List
+    Dim DB_current As Database
+    Dim Table_List As DAO.Recordset 'rule table
+    
+    Set DB_current = CurrentDb 'set DB
+    Set Table_List = DB_current.OpenRecordset("SELECT * FROM Element_List;")
+
+    With Table_List
+        .MoveFirst
+        Do Until .EOF
+            ClearTable (.Fields("ElementTableName").Value)
+            .MoveNext
+        Loop
+    End With
+
+        Exit Sub
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("InitializeDb")
+End Sub
+
+Function GetDataPath() As String
+    On Error GoTo catchRuntimeError
+    Dim objFiledialog As FileDialog
+  
+    MsgBox ("Waehle das dxf-File aus. :-) ")
+    
+    Set objFiledialog = Application.FileDialog(msoFileDialogFilePicker)
+    
+    With objFiledialog
+        .Title = "DXF-File Auswahl"              'Titel
+        .AllowMultiSelect = False                'choose just 1 File
+        .Filters.Add "DXF-Dateien", "*.dxf", 1   'just show dxf files
+    
+        If .Show() = True Then
+            GetDataPath = .SelectedItems(1)
+            'The user pressed Cancel.
+        Else
+            MsgBox ("Kein file Ausgewaehlt :-) ")
+            End
+        End If
+    End With
+
+    Exit Function
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("GetDataPath")
+End Function
+
+Sub ClearTable(Tablename As String)
+    On Error GoTo catchRuntimeError
+    CurrentDb.Execute "DELETE FROM " & Tablename
+
+    Exit Sub
+catchRuntimeError:
+    Dim Logger As New Logger 'Log_Handler
+    Logger.initializeLog
+    Logger.LogRuntimeError ("ClearTable")
+End Sub

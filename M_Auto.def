@@ -8,4 +8,8 @@ Option Explicit
 Private farbe As String
 
 Public Function autofarbe()
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of d6105f4... 2 commit
 End Function

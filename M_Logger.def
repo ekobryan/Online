@@ -1,0 +1,44 @@
+Option Compare Database
+Option Explicit
+
+' Variable declaration
+'-------------------------------------------------------------------------------------------------------------------------------------------------------
+Private DB_current As Database 'current DB
+Private LogFile As DAO.Recordset  'current DB
+'-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Public Sub initializeLog()
+    Set DB_current = CurrentDb 'set DB
+    CurrentDb.Execute "DELETE FROM LogFile"
+    Set LogFile = DB_current.OpenRecordset("SELECT * FROM LogFile")
+End Sub
+
+Public Sub LogError(ErrorLog As String)
+    On Error GoTo catchRuntimeError
+    With LogFile
+        .AddNew
+        .Update
+        .MoveLast
+        .Edit
+        .Fields(0).Value = ErrorLog
+        .Update
+    End With
+
+    Exit Sub
+catchRuntimeError:
+        LogRuntimeError ("LogError")
+End Sub
+
+Public Sub LogRuntimeError(Programpart As String)
+    With LogFile
+        .AddNew
+        .Update
+        .MoveLast
+        .Edit
+        .Fields(0).Value = "Folgender Runtime Error ist im Programmteil " & Programpart & " aufgetreten: " & Err.Number & " " & Err.Description
+        .Update
+    End With
+    DoCmd.Hourglass False
+    MsgBox ("Ein gravierend Fehler ist Aufgetreten! Das Program wurde dauraufhin beendet! Informationen sind im Logfile zu finden.")
+    End
+End Sub
