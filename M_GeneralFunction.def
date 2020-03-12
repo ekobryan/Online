@@ -13,7 +13,7 @@ Sub Filterdxf()
      
     InitializeDb
     Filter.InitializeFilter
-    DataPath = GetDataPath()
+    DataPath = GetDataPath() 
     ProgessBar.Initialize ("Filter")
     LineNr = FileLen(DataPath) / 7
     ProgessBar.SetTotal (LineNr)
