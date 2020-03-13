@@ -1,38 +1,38 @@
 Option Compare Database
 Option Explicit
 Sub test()
-    Dim DataPath As String                'Pfad der Datei als variable deklarieren
-    Dim TextLine As String                'Variablendeklaration f�r das Einlesen der Datei Zeichen f�r Zeichen
+    Dim DataPath As String                                          'Pfad der Datei als variable deklarieren
+    Dim TextLine As String                                          'Variablendeklaration f�r das Einlesen der Datei Zeichen f�r Zeichen
     Dim STR_Line As String
     
-    DataPath = GetDataPath()
+    DataPath = GetDataPath()                    
     
-    Open DataPath For Input As #1         'Mit dem folgenden Code wird die Datei im sequenziellen Eingabemodus ge�ffnet.
+    Open DataPath For Input As #1                                   'Mit dem folgenden Code wird die Datei im sequenziellen Eingabemodus ge�ffnet.
     
-    Do While Not EOF(1)                   'solange end of file nicht erreicht fahre fort
-        Line Input #1, TextLine           'Einlesen der Datei Zeichen f�r Zeichen
-        Strar = Split(STR_Line, ";")(0)   ' Split: Gibt ein nullbasiertes eindimensionales Array mit einer bestimmten Anzahl von Teilzeichenfolgen zurück. wird in 
-    Loop
+    Do While Not EOF(1)                                             'solange end of file nicht erreicht fahre fort
+        Line Input #1, TextLine                                     'Einlesen der Datei Zeichen f�r Zeichen
+        TextLine = Split(STR_Line, ";")(0)                          'Split: Gibt ein nullbasiertes eindimensionales Array mit einer bestimmten Anzahl von Teilzeichenfolgen zurück. Split(expression, [ delimiter, [ limit, [ compare ]]]) 
+    Loop                                                            'Springe immer zu der abweisenden abfrage, wenn diese verneint wird wird die schleife abebrochen
 End Sub
 
 Function GetDataPath() As String
 
-    Dim fp As FileDialog
+    Dim fp As FileDialog                                            'Variablendeklaration fp als Dateidialogfeldfunktionalität
   
     MsgBox ("Waehle die Textdatei aus.")
     
-    Set fp = Application.FileDialog(msoFileDialogFilePicker)
+    Set fp = Application.FileDialog(msoFileDialogFilePicker)        'Ermöglicht es Benutzern, eine Datei auszuwählen.
     
-    With fp
-        .Title = "Textdatei Auswahl"                'Titel
-        .AllowMultiSelect = False                    'choose just 1 File
-        .Filters.Add "Textdateien", "*.txt", 1       'just show txt files
+    With fp                                                         'Kriterien der Datei angeben, also Titel, nur eine Anzeigen und nur txt.dateien anzeigen
+        .Title = "Textdatei Auswahl"                                'Titel
+        .AllowMultiSelect = False                                   'wähle nur ein File aus, nicht mehrere
+        .Filters.Add "Textdateien", "*.txt", 1                      'zeige nur txt.dateien an
     
-        If .Show() = True Then
-            GetDataPath = .SelectedItems(1)
+        If .Show() = True Then                                      'Abfrage ob irgendeine Datei ausgewählt wurde
+            GetDataPath = .SelectedItems(1)                         'Zuweisung der ausgewählten Datei der zuvor deklarierten Funktion GetDataPath                    
             
         Else
-            MsgBox ("Keine Textdatei ausew�hlt ")   'The user pressed Cancel.
+            MsgBox ("Keine Textdatei ausew�hlt ")                   'Der Benutzer hat abgebrochen
             End
         End If
     End With
