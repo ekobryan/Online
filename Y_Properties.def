@@ -7,6 +7,10 @@
     <ClearCacheonClose name="Clear Cache on Close" type="4" value="0" sort="1"/>
     <HasOfflineLists name="HasOfflineLists" type="3" value="70" sort="1"/>
     <NavPaneCategory name="NavPane Category" type="4" value="0" sort="1"/>
+    <NavPaneClosed name="NavPane Closed" type="4" value="0" sort="1"/>
+    <NavPaneSortBy name="NavPane Sort By" type="4" value="1" sort="1"/>
+    <NavPaneViewBy name="NavPane View By" type="4" value="0" sort="1"/>
+    <NavPaneWidth name="NavPane Width" type="4" value="215" sort="1"/>
     <NeverCache name="Never Cache" type="4" value="0" sort="1"/>
     <PicturePropertyStorageFormat name="Picture Property Storage Format" type="4" value="0" sort="1"/>
     <ProjVer name="ProjVer" type="3" value="140" sort="1"/>
@@ -15,6 +19,7 @@
     <ShowDocumentTabs name="ShowDocumentTabs" type="1" value="True" sort="1"/>
     <ThemeResourceName name="Theme Resource Name" type="10" value="Office" sort="1"/>
     <ThemedFormControls name="Themed Form Controls" type="4" value="1" sort="1"/>
+    <TrackNameAutoCorrectInfo name="Track Name AutoCorrect Info" type="10" value="-1" sort="1"/>
     <UseMicrosoftAccess2007compatiblecache name="Use Microsoft Access 2007 compatible cache" type="4" value="0" sort="1"/>
     <UseMDIMode name="UseMDIMode" type="2" value="0" sort="1"/>
     <WebDesignMode name="WebDesignMode" type="2" value="0" sort="1"/>

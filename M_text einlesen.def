@@ -5,13 +5,13 @@ Sub test()
     Dim TextLine As String                                          'Variablendeklaration f�r das Einlesen der Datei Zeichen f�r Zeichen
     Dim STR_Line As String
     
-    DataPath = GetDataPath()                    
+    DataPath = GetDataPath()
     
     Open DataPath For Input As #1                                   'Mit dem folgenden Code wird die Datei im sequenziellen Eingabemodus ge�ffnet.
     
     Do While Not EOF(1)                                             'solange end of file nicht erreicht fahre fort
         Line Input #1, TextLine                                     'Einlesen der Datei Zeichen f�r Zeichen
-        TextLine = Split(STR_Line, ";")(0)                          'Split: Gibt ein nullbasiertes eindimensionales Array mit einer bestimmten Anzahl von Teilzeichenfolgen zurück. Split(expression, [ delimiter, [ limit, [ compare ]]]) 
+        TextLine = Split(STR_Line, ";")(0)                          'Split: Gibt ein nullbasiertes eindimensionales Array mit einer bestimmten Anzahl von Teilzeichenfolgen zurück. Split(expression, [ delimiter, [ limit, [ compare ]]])
     Loop                                                            'Springe immer zu der abweisenden abfrage, wenn diese verneint wird wird die schleife abebrochen
 End Sub
 
@@ -29,7 +29,7 @@ Function GetDataPath() As String
         .Filters.Add "Textdateien", "*.txt", 1                      'zeige nur txt.dateien an
     
         If .Show() = True Then                                      'Abfrage ob irgendeine Datei ausgewählt wurde
-            GetDataPath = .SelectedItems(1)                         'Zuweisung der ausgewählten Datei der zuvor deklarierten Funktion GetDataPath                    
+            GetDataPath = .SelectedItems(1)                         'Zuweisung der ausgewählten Datei der zuvor deklarierten Funktion GetDataPath
             
         Else
             MsgBox ("Keine Textdatei ausew�hlt ")                   'Der Benutzer hat abgebrochen
