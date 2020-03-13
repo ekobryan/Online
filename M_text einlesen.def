@@ -1,0 +1,40 @@
+Option Compare Database
+Option Explicit
+Sub test()
+    Dim DataPath As String                'Pfad der Datei als variable deklarieren
+    Dim TextLine As String                'Variablendeklaration f�r das Einlesen der Datei Zeichen f�r Zeichen
+    Dim STR_Line As String
+    
+    DataPath = GetDataPath()
+    
+    Open DataPath For Input As #1         'Mit dem folgenden Code wird die Datei im sequenziellen Eingabemodus ge�ffnet.
+    
+    Do While Not EOF(1)                   'solange end of file nicht erreicht fahre fort
+        Line Input #1, TextLine           'Einlesen der Datei Zeichen f�r Zeichen
+        Strar = Split(STR_Line, ";")(0)   ' Split: Gibt ein nullbasiertes eindimensionales Array mit einer bestimmten Anzahl von Teilzeichenfolgen zurück. wird in 
+    Loop
+End Sub
+
+Function GetDataPath() As String
+
+    Dim fp As FileDialog
+  
+    MsgBox ("Waehle die Textdatei aus.")
+    
+    Set fp = Application.FileDialog(msoFileDialogFilePicker)
+    
+    With fp
+        .Title = "Textdatei Auswahl"                'Titel
+        .AllowMultiSelect = False                    'choose just 1 File
+        .Filters.Add "Textdateien", "*.txt", 1       'just show txt files
+    
+        If .Show() = True Then
+            GetDataPath = .SelectedItems(1)
+            
+        Else
+            MsgBox ("Keine Textdatei ausew�hlt ")   'The user pressed Cancel.
+            End
+        End If
+    End With
+
+End Function
