@@ -1,3 +1,0 @@
-sub hallo()
-set db = currentdb
-End sub
